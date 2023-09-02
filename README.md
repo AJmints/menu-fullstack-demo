@@ -1,7 +1,7 @@
 
 # Menu Studio Full Stack Demo
 
-This app is to help you create you own personal menu.
+This app will let you keep track of your favorite menu.
 
 ## Tech Stack
 

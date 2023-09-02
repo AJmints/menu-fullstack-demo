@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @Controller
 @CrossOrigin
 @RequestMapping(value = "/admin")
@@ -31,6 +33,36 @@ public class MenuAdminController {
 
     @GetMapping("/getMenu")
     public ResponseEntity<?> getMenuObj() {
+        return new ResponseEntity<>(menuItemRepository.findAll(), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/removeItem/{id}")
+    public ResponseEntity<?> removeMenuItem(@PathVariable Long id) {
+        Optional<MenuItem> remove = menuItemRepository.findById(id);
+
+        if(remove.isPresent()) {
+            menuItemRepository.delete(remove.get());
+        }
+
+        return new ResponseEntity<>(menuItemRepository.findAll(), HttpStatus.OK);
+    }
+
+    @PutMapping("/updateItem/{id}")
+    public ResponseEntity<?> updateItem(@PathVariable Long id, @RequestBody MenuItemDTO menuItemDTO) {
+
+        Optional<MenuItem> updateMenuItem = menuItemRepository.findById(id);
+
+        if(updateMenuItem.isPresent()) {
+            updateMenuItem.get().setName(menuItemDTO.getName());
+            updateMenuItem.get().setCategory(menuItemDTO.getCategory());
+            updateMenuItem.get().setDescription(menuItemDTO.getDescription());
+            updateMenuItem.get().setPrice(menuItemDTO.getPrice());
+            updateMenuItem.get().setNew(menuItemDTO.isNew());
+            menuItemRepository.save(updateMenuItem.get());
+        } else {
+            return 
+        }
+
         return new ResponseEntity<>(menuItemRepository.findAll(), HttpStatus.OK);
     }
 
