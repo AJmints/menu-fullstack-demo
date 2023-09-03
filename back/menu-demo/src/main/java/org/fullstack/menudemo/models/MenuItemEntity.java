@@ -2,21 +2,19 @@ package org.fullstack.menudemo.models;
 
 import jakarta.persistence.*;
 
-@Entity // You will learn about this in the coding events chapters
-public class MenuItem {
+@Entity
+public class MenuItemEntity extends AbstractIdEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // You will learn about this in the coding events chapters
     private String name;
     private double price;
     private String description;
     private String category;
     private boolean isNew;
 
-    public MenuItem() {
+    public MenuItemEntity() {
     }
-    public MenuItem(String name, double price, String description, String category, boolean isNew) {
+    public MenuItemEntity(String name, double price, String description, String category, boolean isNew) {
+        super();
         this.name = name;
         this.price = price;
         this.description = description;
@@ -42,9 +40,6 @@ public class MenuItem {
         isNew = aNew;
     }
 
-    public Long getId() {
-        return id;
-    }
 
     public String getName() {
         return name;

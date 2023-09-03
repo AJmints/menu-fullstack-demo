@@ -1,5 +1,6 @@
 'use client'
 
+import DisplayMenu from "@/components/update-menu/DisplayMenu";
 import UpdateMenu from "@/components/update-menu/UpdateMenu";
 import { useEffect, useState } from "react";
 
@@ -16,26 +17,41 @@ export default function MenuAdmin() {
 
   const webUrl: string = "http://localhost:8080"
 
-  const [menu, setMenu] = useState<MenuItem[]>([])
+  const [menuItems, setMenuItems] = useState<MenuItem[]>([])
+  const [menu, setMenu] = useState({});
 
   useEffect(function() {
-      const getMenu = async() => {
-          await fetch(webUrl + "/admin/getMenu")
+      const getMenuItems = async() => {
+          await fetch(webUrl + "/admin/getMenuItems")
           .then(res => res.json())
           .then(data => {
-            setMenu(data);
+            setMenuItems(data);
           })
-      }    
+      }
+      const getMenu = async() => {
+        await fetch(webUrl + "/admin/getMenu")
+        .then(res => res.json())
+        .then(data => {
+          setMenu(data);
+        })
+      }
       getMenu();
+      getMenuItems();
   }, []);
     
     return (
       <main>
   
-        <h1>Menu Admin</h1>
+        <h1 className="text-center">Menu Admin</h1>
+
+        <DisplayMenu
+        menu={menu}
+        setMenu={setMenu}
+        />
 
         <UpdateMenu 
-        menu={menu}
+        menuItems={menuItems}
+        setMenuItems={setMenuItems}
         setMenu={setMenu}
         />
 

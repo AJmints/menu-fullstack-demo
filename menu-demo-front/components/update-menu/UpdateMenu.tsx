@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import MenuItemCard from "./MenuItemCard";
+import CreateNewMenu from "./CreateNewMenu";
 
 interface MenuItem {
     id: number, 
@@ -16,7 +17,8 @@ export default function UpdateMenu(props: any) {
 
     const webUrl: string = "http://localhost:8080"
 
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [updateMenu, setUpdateMenu] = useState<string[]>([])
 
     async function handleSubmit(event: any) {
         event.preventDefault();
@@ -39,7 +41,7 @@ export default function UpdateMenu(props: any) {
             body: JSON.stringify(data),
         }).then((response) => response.json()).then(data => {
             setIsLoading(prev => !prev);
-            props.setMenu(data);
+            props.setMenuItems(data);
 
             event.target.name.value = ""
             event.target.description.value = ""
@@ -54,7 +56,7 @@ export default function UpdateMenu(props: any) {
         fetch(webUrl + "/admin/removeItem/" + itemId, {
             method: "DELETE"
         }).then((response) => response.json()).then(data => {
-            props.setMenu(data);
+            props.setMenuItems(data);
 
         })
     }
@@ -76,7 +78,7 @@ export default function UpdateMenu(props: any) {
             },
             body: JSON.stringify(data),
         }).then((response) => response.json()).then(data => {
-            props.setMenu(data);
+            props.setMenuItems(data);
 
             event.target.name.value = ""
             event.target.description.value = ""
@@ -87,12 +89,13 @@ export default function UpdateMenu(props: any) {
         })
     }
 
-    const allItems = props.menu.map((item: MenuItem) => (
+    const allItems = props.menuItems.map((item: MenuItem) => (
         <MenuItemCard
         key={item.id}
         item={item}
         removeItem={removeItem}
         updateItem={updateItem}
+        setMenuItems={props.setMenuItems}
         />
       ))
 
@@ -100,25 +103,37 @@ export default function UpdateMenu(props: any) {
     return (
         <div>
 
-            <div className="flex ml-5">
+            <div className="grid grid-cols-3">
+
+            <div className="flex justify-center bg-gray-300">
             <form onSubmit={handleSubmit}>
-                <div className='my-2'>
+                <h1>Create New Item</h1>
+                <div className=''>
                     <h1>Name: </h1>
                     <input className="rounded-md border-2" type='text' autoComplete='off' id='name' required minLength={3} maxLength={40} />
                 </div>
-                <div className='my-2'>
+                <div className=''>
                     <h1>Description: </h1>
                     <input className="rounded-md border-2" type='text' autoComplete='on' id='description' required minLength={3} maxLength={40} />
                 </div>
-                <div className='my-2'>
-                    <h1>Category: </h1>
-                    <input className="rounded-md border-2" type='text' autoComplete='off' id='category' required minLength={3} maxLength={40} />
+                <div className=''>
+                    <h1>Category</h1>
+                    <select className="rounded-md border-2" defaultValue="default" id="category">
+                        <option value="default" disabled>Select meal Type</option>
+                        <option value="Appetizer">Appetizer</option>
+                        <option value="Breakfast">Breakfast</option>
+                        <option value="Lunch">Lunch</option>
+                        <option value="Dinner">Dinner</option>
+                        <option value="Dessert">Dessert</option>
+                        <option value="Drinks">Drinks</option>
+                    </select>
+
                 </div>
-                <div className='my-2'>
+                <div className=''>
                     <h1>Price: </h1>
                     <input className="rounded-md border-2" type='text' autoComplete='on' id='price' />
                 </div>
-                <div className='my-2'>
+                <div className=''>
                     <label htmlFor='isNew'>Is it New: </label>
                     <input className="rounded-md border-2" type='checkbox' autoComplete='on' id='isNew' />
                 </div>
@@ -127,6 +142,29 @@ export default function UpdateMenu(props: any) {
                             <button type='submit' className='p-2 bg-slate-400 mt-4 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-500'>
                             Add Item</button>}
             </form>
+            </div>
+
+            <div className="flex justify-center bg-gray-400">
+                <CreateNewMenu 
+                menuItems={props.menuItems}
+                updateMenu={updateMenu}
+                setUpdateMenu={setUpdateMenu}
+                setMenu={props.setMenu}
+                />
+            </div>
+
+            <div className="flex justify-center bg-gray-500">
+                <div>
+                <h1>Items Selected for new menu:</h1><br/>
+                <ol>
+                {updateMenu.map((item: any) =>
+                    <li key={item}>{"-" + item}</li>
+                )}
+                </ol>
+                {updateMenu.length !== 0 && <button className="bg-red-500/80 p-2 rounded-md mt-3" onClick={() => setUpdateMenu([])}>Clear List</button>}
+                </div>
+            </div>
+
             </div>
 
             <div className="grid lg:grid-cols-5 md:grid-cols-3 grid-cols-2 ">
