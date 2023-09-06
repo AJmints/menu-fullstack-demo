@@ -11,26 +11,25 @@ public class MenuEntity extends AbstractIdEntity{
 
     private String name;
     private Date lastUpdated;
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "menu_item_id")
-    private List<MenuItemEntity> items;
+    @Column(length = 3000, columnDefinition = "MEDIUMBLOB NOT NULL")
+    private List<Long> menuItemIds;
 
     public MenuEntity() {
     }
 
-    public MenuEntity(String name, Date date, ArrayList<MenuItemEntity> items) {
+    public MenuEntity(String name, Date date, ArrayList<Long> items) {
         super();
         this.name = name;
         this.lastUpdated = date;
-        this.items = items;
+        this.menuItemIds = items;
     }
 
     public void setLastUpdated(Date lastUpdated) {
         this.lastUpdated = lastUpdated;
     }
 
-    public void setItems(ArrayList<MenuItemEntity> items) {
-        this.items = items;
+    public void setMenuItemIds(ArrayList<Long> items) {
+        this.menuItemIds = items;
     }
 
     public String getName() {
@@ -46,7 +45,7 @@ public class MenuEntity extends AbstractIdEntity{
         return lastUpdated;
     }
 
-    public List<MenuItemEntity> getItems() {
-        return items;
+    public List<Long> getMenuItemIds() {
+        return menuItemIds;
     }
 }

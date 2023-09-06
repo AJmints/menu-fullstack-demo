@@ -98,14 +98,16 @@ public class MenuAdminController {
 
         ArrayList<MenuItemEntity> createMenu = new ArrayList<>();
 
+        ArrayList<Long> menuItems = new ArrayList<>();
+
         for(String item : menuDTO.getItems()) {
             Optional<MenuItemEntity> itemPresent = menuItemRepository.findByName(item);
-            if(itemPresent.isPresent() && !createMenu.contains(itemPresent.get())) {
-                createMenu.add(itemPresent.get());
+            if(itemPresent.isPresent() && !menuItems.contains(itemPresent.get().getId())) {
+                menuItems.add(itemPresent.get().getId());
             }
         }
 
-        MenuEntity newMenuEntity = new MenuEntity(menuDTO.getName(), new Date(), createMenu);
+        MenuEntity newMenuEntity = new MenuEntity(menuDTO.getName(), new Date(), menuItems);
         menuRepository.save(newMenuEntity);
 
 

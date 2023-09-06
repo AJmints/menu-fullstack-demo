@@ -42,10 +42,11 @@ export default function MenuAdmin() {
     return (
       <main>
   
-        <h1 className="text-center">Menu Admin</h1>
+        <h1 className="text-center text-3xl">Menu Admin</h1>
 
         <DisplayMenu
         menu={menu}
+        menuItems={menuItems}
         setMenu={setMenu}
         />
 

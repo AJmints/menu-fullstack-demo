@@ -97,7 +97,24 @@ export default function UpdateMenu(props: any) {
         updateItem={updateItem}
         setMenuItems={props.setMenuItems}
         />
-      ))
+    ))
+
+    const items = updateMenu.map((menuItem: any) => {
+
+        return (
+                    <tr key={menuItem} className="text-sm">
+                        <td>{props.menuItems.find((items: any) => items.name === menuItem) && props.menuItems.category === "Appetizer"}</td>
+                        <td>{menuItem}</td>
+                        <td>{menuItem}</td>
+                        <td>{menuItem}</td>
+                        <td>{menuItem}</td>
+                        <td>{menuItem}</td>
+                    </tr>
+                )
+
+    }
+        
+    )
 
 
     return (
@@ -153,13 +170,35 @@ export default function UpdateMenu(props: any) {
                 />
             </div>
 
-            <div className="flex justify-center bg-gray-500">
+            <div className="flex justify-center bg-gray-300">
                 <div>
                 <h1>Items Selected for new menu:</h1><br/>
+
+                {/* <table className='bg-gray-100'>
+              <thead>
+                <tr>
+                  <th>Appetizer</th>
+                  <th>BreakFast</th>
+                  <th>Lunch</th>
+                  <th>Dinner</th>
+                  <th>Dessets</th>
+                  <th>Drinks</th>
+                </tr>
+              </thead>
+                <tbody>
+                    
+                  {items} Under construction at the moment
+                </tbody>
+            </table> */}
+
+
+
                 <ol>
-                {updateMenu.map((item: any) =>
-                    <li key={item}>{"-" + item}</li>
-                )}
+                {updateMenu.map((item: any) => {
+                   return ( 
+                   <li key={item}>{"-" + item}</li> 
+                   )
+                })}
                 </ol>
                 {updateMenu.length !== 0 && <button className="bg-red-500/80 p-2 rounded-md mt-3" onClick={() => setUpdateMenu([])}>Clear List</button>}
                 </div>

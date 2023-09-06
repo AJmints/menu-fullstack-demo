@@ -67,12 +67,12 @@ export default function CreateNewMenu(props: any) {
     return (
         <div>
         <form onSubmit={handleSubmit}>
-                <h1>Create New Menu</h1>
+                <h1>Create New Menu</h1><br/>
 
                 <div className=''>
                     <h1>New Menu Name: </h1>
                     <input className="rounded-md border-2" type='text' autoComplete='off' id='name' required minLength={3} maxLength={40} />
-                </div>
+                </div><br/>
                 <div className=''>
                     <h1>Add Item:</h1>
                     <select multiple={true} className="rounded-md border-2" value={selectedValues} onChange={handleSelection} id="addItem">
