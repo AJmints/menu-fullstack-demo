@@ -71,7 +71,7 @@ export default function MenuItemCard(props: any) {
         </div>
         <div className='my-2'>
             <h1>Category</h1>
-            <select className="rounded-md border-2" defaultValue="default" id="category">
+            <select className="rounded-md border-2" defaultValue={props.item.category} id="category">
                 <option value="default" disabled>Select meal Type</option>
                 <option value="Appetizer">Appetizer</option>
                 <option value="Breakfast">Breakfast</option>
@@ -83,11 +83,11 @@ export default function MenuItemCard(props: any) {
         </div>
         <div className='my-2'>
             <h1>Price: </h1>
-            <input className="rounded-md border-2" type='text' autoComplete='off' id='price' defaultValue={props.item.price} />
+            <input className="rounded-md border-2" type='text' value={props.item.price} autoComplete='off' id='price' defaultValue={props.item.price} />
         </div>
         <div className='my-2'>
             <label htmlFor='isNew'>Is it New: </label>
-            <input className="rounded-md border-2" type='checkbox' autoComplete='off' id='isNew' />
+            <input className="rounded-md border-2" type='checkbox' checked={props.item.isNew} autoComplete='off' id='isNew' />
         </div>
 
         {isLoading ? <p className='p-4  mt-6 rounded-lg w-36'>Adding Item to list...</p> : 

@@ -89,7 +89,9 @@ export default function UpdateMenu(props: any) {
         })
     }
 
-    const allItems = props.menuItems.map((item: MenuItem) => (
+    const allItems = props.menuItems.sort((a: any, b: any) => {
+        return a.id - b.id;
+    }).map((item: MenuItem) => (
         <MenuItemCard
         key={item.id}
         item={item}
