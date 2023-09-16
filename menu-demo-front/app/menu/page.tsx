@@ -1,5 +1,6 @@
 'use client'
 
+import DisplayMenuItems from "@/components/update-menu/DisplayMenuItems";
 import { useEffect, useState } from "react"
 
 interface MenuOfTheDay {
@@ -17,15 +18,24 @@ export default function TodaysMenu() {
     menuItems: [],
   };
   const [currentMenu, setCurrentMenu] = useState<MenuOfTheDay>(item);
+  const [menuItems, setMenuItems] = useState<any[]>([])
 
   useEffect(function() {
+    const getMenuItems = async() => {
+      await fetch(webUrl + "/admin/getMenuItems")
+      .then(res => res.json())
+      .then(data => {
+        setMenuItems(data);
+      })
+  }
       const getCurrentMenu = async() => {
-        await fetch(webUrl + "/restaurant/getMenu")
+        await fetch(webUrl + "/admin/getMenu")
         .then(res => res.json())
         .then(data => {
           setCurrentMenu(data);
         })
       }
+      getMenuItems();
       getCurrentMenu();
   }, [])
 
@@ -54,23 +64,10 @@ export default function TodaysMenu() {
         <h1 className="text-4xl">Current Menu: {currentMenu.name}</h1>
             <h1>Menu Created: {currentMenu.lastUpdated}</h1><br/>
 
-            
-
-            <table>
-              <thead>
-                <tr className="space-x-2">
-                  <th className=" border-x-2">Appetizer</th>
-                  <th className=" border-x-2">BreakFast</th>
-                  <th className=" border-x-2">Lunch</th>
-                  <th className=" border-x-2">Dinner</th>
-                  <th className=" border-x-2">Dessets</th>
-                  <th className=" border-x-2">Drinks</th>
-                </tr>
-              </thead>
-                <tbody>
-                  {items} 
-                </tbody>
-            </table>
+            <DisplayMenuItems
+            currentMenu={currentMenu}
+            menuItems={menuItems} 
+            />
   
       </main>
     )

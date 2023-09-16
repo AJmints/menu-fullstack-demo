@@ -1,6 +1,8 @@
 'use client'
 
+import { it } from 'node:test';
 import { useEffect, useState } from 'react';
+import DisplayMenuItems from './DisplayMenuItems';
 
 interface MenuItem {
     id: number, 
@@ -62,24 +64,32 @@ export default function DisplayMenu(props: any) {
         if (props.menuItems.find((item: any) => item.id === menuItem) !== undefined) {
             let category = props.menuItems.find((item: any) => item.id === menuItem)
             return (
-                <tr key={menuItem.name} className="">
-                    <td>{category.category === "Appetizer" ? category.name : ""}</td>
-                    <td>{category.category === "Breakfast" ? category.name : ""}</td>
-                    <td>{category.category === "Lunch" ? category.name : ""}</td>
-                    <td>{category.category === "Dinner" ? category.name : ""}</td>
-                    <td>{category.category === "Dessert" ? category.name : ""}</td>
-                    <td>{category.category === "Drinks" ? category.name : ""}</td>
+                <tr key={menuItem.id} className="">
+                    <td key={menuItem.id}>{category.category === "Appetizer" ? category.name : ""}</td>
+                    <td key={menuItem.id}>{category.category === "Breakfast" ? category.name : ""}</td>
+                    <td key={menuItem.id}>{category.category === "Lunch" ? category.name : ""}</td>
+                    <td key={menuItem.id}>{category.category === "Dinner" ? category.name : ""}</td>
+                    <td key={menuItem.id}>{category.category === "Dessert" ? category.name : ""}</td>
+                    <td key={menuItem.id}>{category.category === "Drinks" ? category.name : ""}</td>
                 </tr>
             )
-
      // <p key={menuItem.id}>{props.menuItems.find((item: any) => item.id === menuItem).name}</p>
-
-
         } else {
             return <p key={menuItem.id}>This item does not / no longer exists.</p>
         }}
-        
     )
+
+    const appItems = currentMenu.menuItemIds?.map((menuItem: any) => {
+        if (props.menuItems.find((item: any) => item.id === menuItem) !== undefined) {
+            let category = props.menuItems.find((item: any) => item.id === menuItem)
+            return (
+                <p>{category.category === "Appetizer" ? category.name : ""}</p>
+            )
+        }
+        return (
+            <p>{menuItem}</p>
+        )
+    })
 
     const dropdownAllMenus = allMenus.map((item: any) => 
          <option key={item.id} value={item.name}>{item.name}</option>
@@ -104,22 +114,12 @@ export default function DisplayMenu(props: any) {
 
             <h1 className='text-3xl'>Current Menu: {currentMenu.name}</h1>
             <h1>Menu Created: {currentMenu.lastUpdated}</h1><br/>
+            
+            <DisplayMenuItems
+            currentMenu={currentMenu}
+            menuItems={props.menuItems} 
+            />
 
-            <table className='bg-gray-100'>
-              <thead>
-                <tr>
-                  <th>Appetizer</th>
-                  <th>BreakFast</th>
-                  <th>Lunch</th>
-                  <th>Dinner</th>
-                  <th>Dessets</th>
-                  <th>Drinks</th>
-                </tr>
-              </thead>
-                <tbody>
-                  {items} 
-                </tbody>
-            </table>
             <br/>
             <button className='p-2 m-2 bg-red-500/80 rounded-md' onClick={() => removeMenu(currentMenu.id)}>Remove This Menu</button>
         </div>
